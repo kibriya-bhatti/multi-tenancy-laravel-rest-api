@@ -11,7 +11,7 @@ class Tenant extends Model
 
     protected $fillable = ['name', 'slug', 'domain'];
 
-     public function users() {
+    public function users() {
         return $this->hasMany(User::class);
     }
 

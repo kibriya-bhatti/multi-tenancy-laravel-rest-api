@@ -21,6 +21,8 @@ class MultiTenantSeeder extends Seeder
 
         foreach ($tenants as $tenantData) {
             $tenant = Tenant::create($tenantData);
+
+            //Initialize tenant context (activate this tenant)
             $users = [];
             for ($u = 1; $u <= 2; $u++) {
                 $users[] = User::create([
@@ -51,6 +53,8 @@ class MultiTenantSeeder extends Seeder
                     ]);
                 }
             }
+            //End tenant context (deactivate)
+            tenancy()->end();
         }
     }
 }

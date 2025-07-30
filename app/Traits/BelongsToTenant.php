@@ -1,4 +1,5 @@
 <?php
+// app/Traits/BelongsToTenant.php
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -9,20 +10,20 @@ trait BelongsToTenant
     protected static function bootBelongsToTenant()
     {
         static::creating(function ($model) {
-            if (multitenancy()->tenant()) {
-                $model->tenant_id = multitenancy()->tenant()->id;
+            if (tenant()) {
+                $model->tenant_id = tenant()->id;
             }
         });
 
         static::addGlobalScope('tenant', function (Builder $builder) {
-            if (multitenancy()->tenant()) {
-                $builder->where('tenant_id', multitenancy()->tenant()->id);
+            if (tenant()) {
+                $builder->where('tenant_id', tenant()->id);
             }
         });
     }
 
     public function scopeForTenant($query, $tenantId = null)
     {
-        return $query->where('tenant_id', $tenantId ?? multitenancy()->tenant()->id);
+        return $query->where('tenant_id', $tenantId ?? tenant()->id);
     }
 }
