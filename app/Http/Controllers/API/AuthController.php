@@ -1,14 +1,11 @@
 <?php
+namespace App\Http\Controllers\API;
 
-namespace App\Http\Controllers;
-
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Services\Support\TransactionService;
-use App\Http\Controllers\BaseController;
 use App\Http\Resources\UserResource;
 use App\Helpers\LogActivity;
 class AuthController extends BaseController
