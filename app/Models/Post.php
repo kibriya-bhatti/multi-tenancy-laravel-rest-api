@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
-use Illuminate\Container\Attributes\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant,SoftDeletes;
 
     protected $fillable = [
         'title', 'content', 'slug', 'category_id','tenant_id', 'created_by', 'updated_by', 'image_path'

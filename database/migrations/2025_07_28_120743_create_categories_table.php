@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained("users")->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
         });
     }

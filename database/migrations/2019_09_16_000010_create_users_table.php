@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('tenant_id')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
         });
 
