@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Services\Support\TransactionService;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\UserResource;
-
+use App\helpers\LogActivity;
 class AuthController extends BaseController
 {
     public function __construct(
@@ -36,6 +36,7 @@ class AuthController extends BaseController
             ]);
         });
         $token = $user->createToken('api-token')->plainTextToken;
+        LogActivity::addToLog('User register');
         return $this->success(["user" =>  new UserResource($user),"token"=>$token], 'Users register successfully.');
     }
 
@@ -59,6 +60,7 @@ class AuthController extends BaseController
 
         $user = Auth::user();
         $token = $user->createToken('api-token')->plainTextToken;
+        LogActivity::addToLog('User login');
         return $this->success(["user" => new UserResource($user),"token"=>$token], 'Login successful.');
     }
 
@@ -68,6 +70,7 @@ class AuthController extends BaseController
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+        LogActivity::addToLog('User logout');
         return $this->success([],'Logged out successfully.');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\CategoryService;
 use App\Validations\CategoryValidation;
 use App\Http\Resources\CategoryResource;
+use App\helpers\LogActivity;
 class CategoryController extends BaseController
 {
     protected $categoryService;
@@ -37,6 +38,7 @@ class CategoryController extends BaseController
         $validator =  CategoryValidation::store($request->all());
         if( $validator) {
             $post = $this->categoryService->store($request->all());
+            LogActivity::addToLog('Category created');
             return $this->success(
                 new CategoryResource($post),
                 "Category created successfully"
@@ -50,6 +52,7 @@ class CategoryController extends BaseController
         $validator =  CategoryValidation::update($id,$request->all());
         if( $validator) {
             $post = $this->categoryService->update($id, $request->all());
+            LogActivity::addToLog('Category updated');
             return $this->success(
                 new CategoryResource($post),
                 "Category updated successfully"
@@ -60,6 +63,7 @@ class CategoryController extends BaseController
     public function destroy($id)
     {
         $this->categoryService->destroy($id);
+        LogActivity::addToLog('Category deleted');
         return $this->success(
             '',
             "Category deleted successfully"

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\PostService;
 use App\Validations\PostValidation;
 use App\Http\Resources\PostResource;
+use App\helpers\LogActivity;
 class PostController extends BaseController
 {
     protected $postService;
@@ -37,6 +38,7 @@ class PostController extends BaseController
         $validator =  PostValidation::store($request->all());
         if( $validator) {
             $post = $this->postService->store($request->all());
+            LogActivity::addToLog('Post created');
             return $this->success(
                 new PostResource($post),
                 "Post created successfully"
@@ -50,6 +52,7 @@ class PostController extends BaseController
         $validator =  PostValidation::update($id,$request->all());
         if( $validator) {
             $post = $this->postService->update($id, $request->all());
+            LogActivity::addToLog('Post updated');
             return $this->success(
                 new PostResource($post),
                 "Post updated successfully"
@@ -60,6 +63,7 @@ class PostController extends BaseController
     public function destroy($id)
     {
         $this->postService->destroy($id);
+        LogActivity::addToLog('Post deleted');
         return $this->success(
             '',
             "Post deleted successfully"
