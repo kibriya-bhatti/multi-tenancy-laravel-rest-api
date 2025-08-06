@@ -1,7 +1,7 @@
 <?php
 
+namespace App\Helpers;
 
-namespace App\helpers;
 use Illuminate\Support\Facades\Request;
 use App\Models\LogActivity as LogActivityModel;
 

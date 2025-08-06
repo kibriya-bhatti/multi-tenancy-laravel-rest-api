@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Services\Support\TransactionService;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\UserResource;
-use App\helpers\LogActivity;
+use App\Helpers\LogActivity;
 class AuthController extends BaseController
 {
     public function __construct(

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\PostService;
 use App\Validations\PostValidation;
 use App\Http\Resources\PostResource;
-use App\helpers\LogActivity;
+use App\Helpers\LogActivity;
 class PostController extends BaseController
 {
     protected $postService;

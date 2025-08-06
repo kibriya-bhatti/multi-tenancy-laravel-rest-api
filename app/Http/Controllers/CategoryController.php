@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\CategoryService;
 use App\Validations\CategoryValidation;
 use App\Http\Resources\CategoryResource;
-use App\helpers\LogActivity;
+use App\Helpers\LogActivity;
 class CategoryController extends BaseController
 {
     protected $categoryService;
