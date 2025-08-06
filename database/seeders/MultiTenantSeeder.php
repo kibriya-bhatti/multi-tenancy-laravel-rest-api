@@ -13,21 +13,24 @@ class MultiTenantSeeder extends Seeder
     public function run(): void
     {
         $tenants = [
-            ['name' => 'Foo Company', 'slug' => 'foo', 'domain' => 'foo.example.com'],
-            ['name' => 'Baz Company', 'slug' => 'baz', 'domain' => 'baz.example.com'],
-            ['name' => 'Qux Company', 'slug' => 'qux', 'domain' => 'qux.example.com'],
-            ['name' => 'Bar Company', 'slug' => 'bar', 'domain' => 'bar.example.com'],
+            ['id' => 'tenant'],
+            ['id' => 'foo'],
         ];
 
-        foreach ($tenants as $tenantData) {
+        foreach ($tenants as $key => $tenantData) {
             $tenant = Tenant::create($tenantData);
+            if($key==0){
+                $tenant->domains()->create(['domain' => 'tenant.localhost']);
+            }else{
+                $tenant->domains()->create(['domain' => 'foo.localhost']);
+            }
 
             //Initialize tenant context (activate this tenant)
             $users = [];
             for ($u = 1; $u <= 2; $u++) {
                 $users[] = User::create([
-                    'name'      => "{$tenant->slug} User {$u}",
-                    'email'     => "{$tenant->slug}user{$u}@example.com",
+                    'name'      => "{$tenant->id} User {$u}",
+                    'email'     => "{$tenant->id}user{$u}@user.com",
                     'password'  => Hash::make('password'),
                     'tenant_id' => $tenant->id,
                 ]);
@@ -35,16 +38,16 @@ class MultiTenantSeeder extends Seeder
 
             for ($c = 1; $c <= 2; $c++) {
                 $category = Category::create([
-                    'name'      => ucfirst($tenant->slug) . " Category {$c}",
-                    'slug'      => "{$tenant->slug}-category-{$c}",
+                    'name'      => ucfirst($tenant->id) . " Category {$c}",
+                    'slug'      => "{$tenant->id}-category-{$c}",
                     'tenant_id' => $tenant->id,
                 ]);
 
                 for ($p = 1; $p <= 3; $p++) {
                     Post::create([
-                        'title'        => ucfirst($tenant->slug) . " Post {$p} (Cat {$c})",
-                        'content'         => "{$tenant->slug}-post-content-{$c}-{$p}",
-                        'slug'         => "{$tenant->slug}-post-{$c}-{$p}",
+                        'title'        => ucfirst($tenant->id) . " Post {$p} (Cat {$c})",
+                        'content'         => "{$tenant->id}-post-content-{$c}-{$p}",
+                        'slug'         => "{$tenant->id}-post-{$c}-{$p}",
                         'image_path' => null,
                         'category_id'  => $category->id,
                         'tenant_id'    => $tenant->id,

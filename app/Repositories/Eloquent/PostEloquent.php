@@ -11,7 +11,7 @@ class PostEloquent implements PostInterface
     {
         $this->model = $post;
     }
-    public function all(int $perPage = 10)
+    public function all($perPage)
     {
         return $this->model->with('category')
             ->latest('created_at')
@@ -32,7 +32,7 @@ class PostEloquent implements PostInterface
     {
         $post = $this->model->findOrFail($id);
         if ($post) {
-            $post->with('category')->update($data);
+            $post->update($data);
             return $post;
         }
         return null;

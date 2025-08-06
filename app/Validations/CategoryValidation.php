@@ -4,20 +4,13 @@ namespace App\Validations;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
-class PostValidation
+class CategoryValidation
 {
     public static function store($data): array
     {
         $rules = [
-            'title'        => 'required|string|max:255',
-            'slug'         => 'required|string|unique:posts,slug',
-            'category_id'  => [
-                'required',
-                Rule::exists('categories', 'id')
-                    ->where(fn($query) => $query->where('tenant_id', auth()->user()->tenant_id)),
-            ],
-            'content'      => 'nullable|string',
-            'featured_img' => 'nullable|image|max:2048',
+            'name'        => 'required|string|max:255',
+            'slug'         => 'required|string|unique:posts,slug'
         ];
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
@@ -26,24 +19,17 @@ class PostValidation
         return $validator->validated();
     }
 
-    public static function update(int $postId,$data): array
+    public static function update(int $categoryId,$data): array
     {
         $rules = [
-            'title'        => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'slug'         => [
                 'required',
                 'string',
-                Rule::unique('posts', 'slug')
-                ->ignore($postId)
+                Rule::unique('categories', 'slug')
+                ->ignore($categoryId)
                 ->where(fn ($query) => $query->where('tenant_id', auth()->user()->tenant_id)),
-            ],
-            'category_id'  => [
-                'required',
-                Rule::exists('categories', 'id')
-                    ->where(fn($query) => $query->where('tenant_id', auth()->user()->tenant_id)),
-            ],
-            'content'      => 'nullable|string',
-            'featured_img' => 'nullable|image|max:2048',
+            ]
         ];
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {

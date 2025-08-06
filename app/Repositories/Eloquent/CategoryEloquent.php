@@ -1,13 +1,13 @@
 <?php
 namespace App\Repositories\Eloquent;
-use App\Models\Models\Category as ModelsCategory;
+use App\Models\Category;
 use App\Repositories\Interfaces\CategoryInterface;
 
 class CategoryEloquent implements CategoryInterface
 {
     protected $model;
 
-    public function __construct(ModelsCategory $category)
+    public function __construct(Category $category)
     {
         $this->model = $category;
     }
@@ -29,19 +29,19 @@ class CategoryEloquent implements CategoryInterface
 
     public function update($id, array $data)
     {
-        $post = $this->model->findOrFail($id);
-        if ($post) {
-            $post->update($data);
-            return $post;
+        $category = $this->model->findOrFail($id);
+        if ($category) {
+            $category->update($data);
+            return $category;
         }
         return null;
     }
 
     public function delete($id)
     {
-        $post = $this->model->findOrFail($id);
-        if ($post) {
-            return $post->delete();
+        $category = $this->model->findOrFail($id);
+        if ($category) {
+            return $category->delete();
         }
         return null;
     }

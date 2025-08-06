@@ -4,7 +4,7 @@ namespace App\Repositories\Interfaces;
 
 interface PostInterface
 {
-    public function all();
+    public function all($perPage);
 
     public function find($id);
 

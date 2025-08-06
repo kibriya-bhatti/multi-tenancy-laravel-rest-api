@@ -17,7 +17,6 @@ class TransactionService
     public function run(Closure $callback): mixed
     {
         DB::beginTransaction();
-
         try {
             $result = $callback();
 

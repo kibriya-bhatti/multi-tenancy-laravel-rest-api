@@ -17,11 +17,15 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->string('slug')->unique();
             $table->string('image_path')->nullable();
-            $table->foreignId('tenant_id')->nullable()->constrained("tenants")->onDelete('cascade');
+            $table->string('tenant_id')->nullable();
+
             $table->foreignId('category_id')->nullable()->constrained("categories")->onDelete('cascade');
             $table->foreignId('created_by')->nullable()->constrained("users")->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained("users")->onDelete('cascade');
+
             $table->timestamps();
+            $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
+
         });
     }
 

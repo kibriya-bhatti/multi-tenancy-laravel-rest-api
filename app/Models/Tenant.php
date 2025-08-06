@@ -2,24 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Stancl\Tenancy\Database\Models\Tenant as BaseTenant;
+use Stancl\Tenancy\Contracts\TenantWithDatabase;
+use Stancl\Tenancy\Database\Concerns\HasDatabase;
+use Stancl\Tenancy\Database\Concerns\HasDomains;
 
-class Tenant extends Model
+class Tenant extends BaseTenant implements TenantWithDatabase
 {
-    use UsesTenantConnection;
-
-    protected $fillable = ['name', 'slug', 'domain'];
-
-    public function users() {
-        return $this->hasMany(User::class);
-    }
-
-    public function posts() {
-        return $this->hasMany(Post::class);
-    }
-
-    public function categories() {
-        return $this->hasMany(Category::class);
-    }
+    use HasDatabase, HasDomains;
 }

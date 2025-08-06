@@ -15,8 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->foreignId('tenant_id')->nullable()->constrained("tenants")->onDelete('cascade');
+            $table->string('tenant_id')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained("users")->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained("users")->onDelete('cascade');
+
             $table->timestamps();
+            $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
